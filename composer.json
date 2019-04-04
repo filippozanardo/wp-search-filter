@@ -1,0 +1,7 @@
+{
+    "name": "filippozanardo/wp-search-filter",
+    "require": {
+        "nesbot/carbon": "^1.30",
+        "htmlburger/carbon-fields": "^2.2"
+    }
+}

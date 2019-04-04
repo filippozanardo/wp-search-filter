@@ -1,0 +1,74 @@
+.wpsf-title {
+  font-weight: bold!important;
+}
+
+.wpsf-label {
+  float: left;
+  padding-top: 15px;
+  font-size: 14px;
+  font-weight: bold !important;
+  clear: both;
+  width: 100%;
+  &.first {
+    padding-top: 5px;
+  }
+}
+
+.wpsf-form-group {
+    width: 100%;
+    clear: both;
+}
+
+.wpsf-text-input {
+  width: 98%;
+  height: 40px;
+}
+
+.wpsf-select {
+  width: 98%;
+  height: 35px;
+}
+
+.wpsf-button {
+  margin: 12px 0;
+  &.wpsf-button-search {
+    background-color: #e84e0f;
+    color: #ffffff;
+  }
+  &.wpsf-button-reset {
+    background-color: #4c769b;
+    color: #ffffff;
+  }
+}
+
+.wpsf-form-title {
+  h4 {
+    margin: 0;
+  }
+}
+
+.filter-number {
+  font-style:  italic;
+  .wpsf-number {
+    color: #e84e0f;
+  }
+}
+
+.found-number {
+  font-style:  italic;
+  .total-number {
+    color: #4c769b;
+  }
+
+}
+
+.wpsf-custom-filter {
+  .btn-group {
+    width: 100%;
+    text-align: left;
+    .multiselect {
+      width: 98%;
+      text-align: left;
+    }
+  }
+}
