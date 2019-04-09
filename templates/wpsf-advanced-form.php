@@ -7,7 +7,7 @@ if ( !empty($wpsf_def_filter) ) {
     $wpsf_advanced_page = carbon_get_theme_option('wpsf_advanced_page');
 
 
-    $nonce = wp_create_nonce  ('wpsfsearch');
+    $nonce = wp_create_nonce('wpsfsearch');
     $add_textbox = carbon_get_post_meta($wpsf_def_filter,'wpsf_add_textbox');
     $post_type = carbon_get_post_meta($wpsf_def_filter,'wpsf_post_type');
     $per_page = carbon_get_post_meta($wpsf_def_filter,'wpsf_per_page');
@@ -21,12 +21,12 @@ if ( !empty($wpsf_def_filter) ) {
       $faction = home_url( '/' );
       $method = 'method="get" action="'.$faction.'"';
       $namekey = 's';
-      $oldvalue = (isset($_GET['s'])) ? $_GET['s'] : '';
+      $oldvalue = (isset($_GET['s'])) ? sanitize_text_field($_GET['s']) : '';
     }else{
       $wpsf_perma = get_permalink($wpsf_advanced_page);
       $method = 'method="get" action="'.$wpsf_perma.'"';
       $namekey = 'wpsfkeyword';
-      $oldvalue = (isset($_GET['wpsfkeyword'])) ? $_GET['wpsfkeyword'] : '';
+      $oldvalue = (isset($_GET['wpsfkeyword'])) ? sanitize_text_field($_GET['wpsfkeyword']) : '';
     }
 
 
@@ -196,9 +196,9 @@ if ( !empty($wpsf_def_filter) ) {
 
               <?php if ( $field['_type'] == 'year') { ?>
 
-              <?php $oldyear = (isset($_GET['wpsf-year'])) ? $_GET['wpsf-year'] : ''; ?>
-              <?php $oldfrom = (isset($_GET['wpsf-year-from'])) ? $_GET['wpsf-year-from'] : ''; ?>
-              <?php $oldto = (isset($_GET['wpsf-year-to'])) ? $_GET['wpsf-year-to'] : ''; ?>
+              <?php $oldyear = (isset($_GET['wpsf-year'])) ? sanitize_text_field($_GET['wpsf-year']) : ''; ?>
+              <?php $oldfrom = (isset($_GET['wpsf-year-from'])) ? sanitize_text_field($_GET['wpsf-year-from']) : ''; ?>
+              <?php $oldto = (isset($_GET['wpsf-year-to'])) ? sanitize_text_field($_GET['wpsf-year-to']) : ''; ?>
 
               <div class="wpsf-form-group wpsf-year">
                 <?php if ( $years ) { ?>
@@ -328,11 +328,11 @@ if ( !empty($wpsf_def_filter) ) {
     </div>
   <?php
     }else{
-      echo 'Please select a post type';
+      echo esc_html( __( 'Please select a post type', 'wp-search-filter' ) );
     }
   }else{
-    echo 'No Form Selected';
+    echo esc_html( __( 'No Form Selected', 'wp-search-filter' ) );
   }
 }else{
-  echo 'No Form Selected';
+  echo esc_html( __( 'No Form Selected', 'wp-search-filter' ) );
 }

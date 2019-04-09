@@ -1,6 +1,5 @@
 <div class="wpsfadv-filter">
 <?php
-  //var_dump($_REQUEST);
   $requiem = $_REQUEST;
   if(!empty($requiem) && $requiem['wpsfs'] == 'wpsf_search_adv' ) {
   ?>
@@ -8,11 +7,6 @@
   <?php
     $i = 0;
     foreach ($requiem as $rkey => $wpsfalue ) {
-      // var_dump($rkey);
-      // var_dump(substr($rkey, 0,5));
-      //
-      // $tax = substr($rkey, 0,5);
-      // $yea = substr($rkey, 0,7);
 
       if ( substr($rkey, 0,5) == 'wpsftax' ) {
         $pieces = explode("-", $rkey);

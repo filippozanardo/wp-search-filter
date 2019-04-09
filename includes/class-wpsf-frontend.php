@@ -47,7 +47,6 @@ class Wpsf_Frontend {
 					if ( !empty( $_POST['item'] ) ) {
 						$response .= ' '.$_POST['item'];
 					}else{
-
 					}
 					wp_send_json_success($cperma.$response);
 			}

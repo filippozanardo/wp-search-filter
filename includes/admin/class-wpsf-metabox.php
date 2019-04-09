@@ -190,7 +190,7 @@ class Wpsf_Metabox {
 
     public function get_post_types() {
 
-        $post_types = apply_filters( 'redvolver_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
+        $post_types = apply_filters( 'wpsf_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
 
         foreach ( $post_types as $post_type ) {
             if ( $post_type->name  == 'attachment' ) continue;
@@ -225,7 +225,7 @@ class Wpsf_Metabox {
 				}
 				else{
 					$meta_keys[] = 	$key['meta_key'];
-					}
+				}
 			}
 			return $meta_keys;
 		}

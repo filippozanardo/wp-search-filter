@@ -3,7 +3,7 @@
 if ( !empty($wpsf_param) ) {
   if ($wpsf_param->id != 0 ) {
 
-    $nonce = wp_create_nonce  ('wpsfsearch');
+    $nonce = wp_create_nonce('wpsfsearch_'.$wpsf_param->id);
     $post_type = carbon_get_post_meta($wpsf_param->id,'wpsf_post_type');
     $per_page = carbon_get_post_meta($wpsf_param->id,'wpsf_per_page');
     $orderby = carbon_get_post_meta($wpsf_param->id,'wpsf_orderby');
@@ -12,7 +12,7 @@ if ( !empty($wpsf_param) ) {
     $template = carbon_get_post_meta($wpsf_param->id,'wpsf_template');
     $method = 'method="get" action="'.home_url( '/' ).'"';
 
-    $oldvalue = (isset($_GET['wpsfkeyword'])) ? $_GET['wpsfkeyword'] : '';
+    $oldvalue = (isset($_REQUEST['wpsfkeyword'])) ? sanitize_text_field($_REQUEST['wpsfkeyword']) : '';
 
 
     if ( $post_type )  {
@@ -43,7 +43,6 @@ if ( !empty($wpsf_param) ) {
 
             $i = 1;
             foreach ($fields as $field) {
-              //var_dump($field);
               ?>
 
               <?php if ( in_array($field['_type'], $taxonomies)) { ?>
@@ -63,8 +62,8 @@ if ( !empty($wpsf_param) ) {
                   $terms = get_terms( $field['_type'], $args );
                   if ( $terms) {
                     $meold = false;
-                    if ( isset($_GET['wpsftax-'.$field['_type'].'-'.$i]) && !empty($_GET['wpsftax-'.$field['_type'].'-'.$i]) ) {
-                      $meold = $_GET['wpsftax-'.$field['_type'].'-'.$i];
+                    if ( isset($_REQUEST['wpsftax-'.$field['_type'].'-'.$i]) && !empty($_REQUEST['wpsftax-'.$field['_type'].'-'.$i]) ) {
+                      $meold = sanitize_text_field($_REQUEST['wpsftax-'.$field['_type'].'-'.$i]);
                     }
                   ?>
                 <div class="wpsf-form-group wpsf-year">
@@ -138,7 +137,7 @@ if ( !empty($wpsf_param) ) {
 
               <?php if ( $field['_type'] == 'year') { ?>
 
-              <?php $oldyear = (isset($_GET['wpsf-year'])) ? $_GET['wpsf-year'] : ''; ?>
+              <?php $oldyear = (isset($_REQUEST['wpsf-year'])) ? sanitize_text_field($_REQUEST['wpsf-year']) : ''; ?>
 
               <div class="wpsf-form-group wpsf-year">
                 <?php if ( $years ) { ?>
@@ -201,7 +200,6 @@ if ( !empty($wpsf_param) ) {
               <?php }
 
               if ( $field['_type'] == 'meta') {
-                //echo 'meta';
               }
 
 
@@ -225,11 +223,11 @@ if ( !empty($wpsf_param) ) {
     </div>
   <?php
     }else{
-      echo 'Please select a post type';
+      echo esc_html( __( 'Please select a post type', 'wp-search-filter' ) );
     }
   }else{
-    echo 'No Form Selected';
+    echo esc_html( __( 'No Form Selected', 'wp-search-filter' ) );
   }
 }else{
-  echo 'No Form Selected';
+  echo esc_html( __( 'No Form Selected', 'wp-search-filter' ) );
 }

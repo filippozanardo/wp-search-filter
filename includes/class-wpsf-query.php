@@ -62,13 +62,10 @@ class Wpsf_Query {
         $args = array(
           'post_type' => $post_type,
           'post_status' => 'publish',
-          //'meta_key'=> $ordermeta,
           'orderby' => $query_orderby,
           'order' => $query_order,
           'paged'=> $paged,
           'posts_per_page' => $number,
-          //'meta_query' => $get_meta,
-          //'tax_query' => $get_tax,
           's' => esc_html($keyword),
         );
 
@@ -129,8 +126,6 @@ class Wpsf_Query {
 
         $taxonomies = get_taxonomies( array('public'=> true), 'names' );
 
-        //$args['tax_query'] = null;
-
         foreach ($_GET as $gkey => $gvalue) {
           $gpieces = explode("-", $gkey);
 
@@ -151,20 +146,11 @@ class Wpsf_Query {
           if ( !empty($args['tax_query']) ) $args['tax_query']['relation'] = $relation;
         }
 
-        // echo '<pre>';
-        // print_r($_GET);
-        // echo '</pre>';
-        //
-        // echo '<pre>';
-        // print_r($args);
-        // echo '</pre>';
-
-
         foreach($args as $k => $v){
           $query->set( $k, $v );
     		}
-    		return $query;
 
+    		return $query;
 
       }
     }
