@@ -42,14 +42,16 @@ class Wpsf_Frontend {
 
 		public function wpsf_remove_facet(){
 			$cperma = get_permalink();
-			if ( !empty( $_POST['key'] ) ) {
-					$response = ' '.$_POST['key'];
-					if ( !empty( $_POST['item'] ) ) {
-						$response .= ' '.$_POST['item'];
-					}else{
+			$resp = (isset($_REQUEST['key'])) ? sanitize_text_field($_REQUEST['key']) : false;
+			if ( $resp ) {
+					$response = ' '.$resp;
+					$item = (isset($_REQUEST['item'])) ? sanitize_text_field($_REQUEST['item']) : false;
+					if ( $item ) ) {
+						$response .= ' '.$item;
 					}
 					wp_send_json_success($cperma.$response);
 			}
+			wp_send_json_error();
 		}
 
 		public function template_include( $template ) {
