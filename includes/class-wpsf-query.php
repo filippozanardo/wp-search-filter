@@ -37,9 +37,8 @@ class Wpsf_Query {
         $relation = carbon_get_post_meta($formid,'wpsf_relation');
         if ( empty($relation) ) $relation = 'OR';
 
-        if ( !empty($_GET['wpsf_per_page']) ) {
-          $number = $_GET['wpsf_per_page'];
-        }else{
+        $number = (isset($_REQUEST['wpsf_per_page'])) ? sanitize_text_field($_REQUEST['wpsf_per_page']) : 0;
+        if ( $number == 0 ) {
           $per_page = carbon_get_post_meta($formid,'wpsf_per_page');
           if ( !empty($per_page) ) {
             $number = $per_page;
