@@ -26,7 +26,8 @@ class Wpsf_Query {
   public function wpsf_search_query($query){
 
     if($query->is_search()){
-	    if($query->query_vars['s'] == 'wpsf_search_on' && isset($_GET['wpsfid'])){
+      $wpsfid = (isset($_REQUEST['wpsfid'])) ? sanitize_text_field($_REQUEST['wpsfid']) : false;
+	    if($query->query_vars['s'] == 'wpsf_search_on' && $wpsfid){
 
         $formid = absint(str_replace('wpsf-form-','',$_GET['wpsfid']));
 
@@ -53,7 +54,7 @@ class Wpsf_Query {
           $query_order = $order;
         }
 
-        $keyword = !empty($_GET['wpsfkeyword']) ? sanitize_text_field($_GET['wpsfkeyword']) : null;
+        $keyword = !empty($_REQUEST['wpsfkeyword']) ? sanitize_text_field($_REQUEST['wpsfkeyword']) : null;
 
         $paged = ( get_query_var( 'paged') ) ? get_query_var( 'paged' ) : 1;
 
@@ -68,15 +69,18 @@ class Wpsf_Query {
           's' => esc_html($keyword),
         );
 
-        if ( !empty($_GET['wpsf-year-from']) && !empty($_GET['wpsf-year-to']) ) {
-          if ($_GET['wpsf-year-to'] > $_GET['wpsf-year-from'] ) {
+        $year_from = !empty($_REQUEST['wpsf-year-from']) ? sanitize_text_field($_REQUEST['wpsf-year-from']) : false;
+        $year_to = !empty($_REQUEST['wpsf-year-to']) ? sanitize_text_field($_REQUEST['wpsf-year-to']) : false;
+
+        if ( $year_from && $year_to ) {
+          if ($year_from > $year_to ) {
             $args['date_query'] = array(
               array(
                 'after' => array(
-                  'year' => $_GET['wpsf-year-from']
+                  'year' => $year_from
                 ),
                 'before' => array(
-                  'year' => $_GET['wpsf-year-to']
+                  'year' => $year_to
                 ),
                 'inclusive' => true,
               )
@@ -85,56 +89,67 @@ class Wpsf_Query {
             $args['date_query'] = array(
               array(
                 'after' => array(
-                  'year' => $_GET['wpsf-year-from']
+                  'year' => $year_from
                 ),
                 'inclusive' => true,
               )
             );
           }
-        }elseif(!empty($_GET['wpsf-year-from'])) {
+        }elseif($year_from) {
           $args['date_query'] = array(
             array(
               'after' => array(
-                'year' => $_GET['wpsf-year-from']
+                'year' => $year_from
               ),
               'inclusive' => true,
             )
           );
-        }elseif(!empty($_GET['wpsf-year-to'])) {
+        }elseif($year_to) {
           $args['date_query'] = array(
             array(
               'before' => array(
-                'year' => $_GET['wpsf-year-to']
+                'year' => $year_to
               ),
               'inclusive' => true,
             )
           );
         }
 
-        if ( !empty($_GET['wpsf-year']) ) {
-          if ( is_array( $_GET['wpsf-year'] ) ) {
-            foreach ($_GET['wpsf-year'] as $yv ) {
-              $args['date_query'][] = array( 'year' => $yv );
+
+        if ( !empty($_REQUEST['wpsf-year']) ) {
+          if ( is_array( $_REQUEST['wpsf-year'] ) ) {
+
+            foreach ($_REQUEST['wpsf-year'] as $yv ) {
+              $year_value = !empty($yv) ? sanitize_text_field($yv) : false;
+              if ( $year_value ) {
+                $args['date_query'][] = array( 'year' => $year_value );
+              }
             }
             if ( !empty($args['date_query']) ) $args['date_query']['relation'] = $relation;
           }else{
-            $args['date_query'] = array( 'year' => $_GET['wpsf-year'] );
+            $year_value = !empty($_REQUEST['wpsf-year']) ? sanitize_text_field($_REQUEST['wpsf-year']) : false;
+            if ( $year_value ) {
+              $args['date_query'] = array( 'year' => $_REQUEST['wpsf-year'] );
+            }
           }
 
         }
 
         $taxonomies = get_taxonomies( array('public'=> true), 'names' );
 
-        foreach ($_GET as $gkey => $gvalue) {
+        foreach ($_REQUEST as $gkey => $gvalue) {
           $gpieces = explode("-", $gkey);
+          $taxkey = (isset($gpieces[0])) ? sanitize_text_field($gpieces[0]) : false;
 
-          if ( isset($gpieces[0]) && $gpieces[0] == 'wpsftax' ) {
-            if ( isset($gpieces[1]) ) {
-              if ( in_array($gpieces[1], $taxonomies)) {
+          if ( $taxkey && $taxkey == 'wpsftax' ) {
+            $taxvalue = (isset($gpieces[1])) ? sanitize_text_field($gpieces[1]) : false;
+            if ( $taxvalue ) {
+              if ( in_array($taxvalue, $taxonomies)) {
                 if (!empty($gvalue)) {
+                  $gvalue = sanitize_text_field($gvalue);
                   $args['tax_query'][] =
                     array(
-                        'taxonomy' => $gpieces[1],
+                        'taxonomy' => $taxvalue,
                         'field'    => 'term_id',
                         'terms'    => $gvalue,
                     );

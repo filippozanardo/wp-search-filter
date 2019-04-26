@@ -16,6 +16,40 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+if ( ! function_exists( 'wsf_fs' ) ) {
+    // Create a helper function for easy SDK access.
+    function wsf_fs() {
+        global $wsf_fs;
+
+        if ( ! isset( $wsf_fs ) ) {
+            // Include Freemius SDK.
+            require_once dirname(__FILE__) . '/freemius/start.php';
+
+            $wsf_fs = fs_dynamic_init( array(
+                'id'                  => '3685',
+                'slug'                => 'wp-search-filter',
+                'type'                => 'plugin',
+                'public_key'          => 'pk_fe26dcdbec4ed5ccc632d823bb824',
+                'is_premium'          => false,
+                'has_addons'          => false,
+                'has_paid_plans'      => false,
+                'menu'                => array(
+                    'slug'           => 'edit.php?post_type=wpsf',
+                    'account'        => false,
+                    'support'        => false,
+                ),
+            ) );
+        }
+
+        return $wsf_fs;
+    }
+
+    // Init Freemius.
+    wsf_fs();
+    // Signal that SDK was initiated.
+    do_action( 'wsf_fs_loaded' );
+}
+
 include_once( __DIR__ . '/vendor/autoload.php' );
 
 use Carbon_Fields\Container;

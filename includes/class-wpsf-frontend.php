@@ -46,7 +46,7 @@ class Wpsf_Frontend {
 			if ( $resp ) {
 					$response = ' '.$resp;
 					$item = (isset($_REQUEST['item'])) ? sanitize_text_field($_REQUEST['item']) : false;
-					if ( $item ) ) {
+					if ( $item ) {
 						$response .= ' '.$item;
 					}
 					wp_send_json_success($cperma.$response);
