@@ -5,6 +5,7 @@ Requires at least: 4.3
 Tested up to: 5.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Version: 0.0.1
 
 Create custom search filter.
 
