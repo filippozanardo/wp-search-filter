@@ -6,8 +6,8 @@
  * Version: 0.0.1
  * Author: Filippo Zanardo
  * Author URI: http://filippozanardo.com/
- * Requires at least: 4.1
- * Tested up to: 4.9
+ * Requires at least: 4.3
+ * Tested up to: 5.1
  * Text Domain: wp-search-filter
  * Domain Path: /languages/
  * License: GPL3+
