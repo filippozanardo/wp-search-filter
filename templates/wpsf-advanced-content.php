@@ -42,7 +42,7 @@ if ( !empty($wpsf_def_filter) ) {
 
         if ($fromyear > $toyear ) {
 
-          $args['date_query'] = array($fromyear
+          $args['date_query'] = array(
             array(
               'after' => array(
                 'year' => $fromyear
